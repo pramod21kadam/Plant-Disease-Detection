@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 
 # Added Ignore files here
+test.py
+database.db
