@@ -1,5 +1,7 @@
-from packages.packages import Flask
-from blueprints.api import api
+from packages.packages import Flask, json, request, wraps, jsonify, jwt
+"""
+   Implemented singelton class for application 
+"""
 class Metaclass(type):
     __instance = None
     def __call__(cls, *args, **kwargs):
@@ -8,8 +10,7 @@ class Metaclass(type):
         return cls.__instance
 
 class App(metaclass=Metaclass):
-    def __new__(self, config_file = None):
+    def __new__(self):
         self.instance = Flask(__name__)
         self.instance.config.from_pyfile('config.cfg')
-        self.instance.register_blueprint(api, url_prefix='/api')
         return self.instance

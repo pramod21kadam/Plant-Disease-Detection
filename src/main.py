@@ -1,4 +1,4 @@
-from application import App
+from blueprints.api import App
 from routing import routing
 
 if __name__ == "__main__":
