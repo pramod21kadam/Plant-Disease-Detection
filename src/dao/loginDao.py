@@ -7,6 +7,8 @@ class LoginDao:
             Returns true on successful sugn_in
         """
         try:
+            # Query data from database
+            # SELECT COUNT(*) FROM login WHERE login.email = email AND login.password = password
             result = db.session.query(func.count(Login.id)).\
                 filter(Login.email == email).\
                 filter(Login.password == password).\
@@ -21,18 +23,20 @@ class LoginDao:
     def sign_up(email, password):
         """
             Inserts email and password into database.\n
-            Returns True on successful sign_up
+            Returns True on successful insertion
         """
         try:
-            if not LoginDao.sign_in(email=email, password=password):
-                obj = Login(email=email, password=password)
-                if  base.insert(obj=obj):
-                    if base.commit():
-                        return True
-            else:
-                return False
+            # For new entry in login table create a Login object
+            obj = Login(email=email, password=password)
+            # insert it into database
+            if  base.insert(obj=obj):
+                # commit
+                if base.commit():
+                    return True, 'Successful'
+                return False, 'Commit error'
+            return False, 'Insert error'
         except Exception as error:
-            return False
+            return False, error
 
     def get(email):
         return db.session.query(Login).filter( Login.email == email).first()
