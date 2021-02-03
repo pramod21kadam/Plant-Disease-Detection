@@ -1,4 +1,4 @@
-from model.master import db, Login
+from datamodel.master import db, Login
 from .base import *
 class LoginDao:
     @staticmethod

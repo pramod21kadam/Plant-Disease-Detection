@@ -1,4 +1,4 @@
-from model.master import db
+from datamodel.master import db
 from packages.packages import exc, func
 class base:
     def insert(obj):

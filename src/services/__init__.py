@@ -1,2 +1,2 @@
-from .predictServ import *
-from .authentationServ import *
+from .predictServ import PredictServ
+from .authentationServ import AuthentationServ
