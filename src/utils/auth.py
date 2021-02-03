@@ -10,9 +10,9 @@ def token_required(f):
     @wraps(f) 
     def decorated(*args, **kwargs): 
         token = None
-        # jwt is passed in the request argument
-        if 'x-access-token' in request.args: 
-            token = request.args['x-access-token'] 
+        # jwt is passed in the request cookies
+        if 'x-access-token' in request.cookies.keys():
+            token = request.cookies['x-access-token'] 
         # return 401 if token is not passed 
         if not token: 
             return jsonify({'message' : 'Token is missing !!'}), 401
@@ -21,7 +21,7 @@ def token_required(f):
             # decoding the payload to fetch the stored details
             data = jwt.decode(token,  config('config.cfg')['SECRET_KEY'])
             current_user = LoginDao.get(email=data['email'])
-            if data['email'] != current_user.email:
+            if data['id'] != current_user.id:
                 return jsonify({ 
                     'message' : 'Token is invalid !!'
                     }), 401

@@ -14,7 +14,10 @@ class SigninCtrl(MethodView):
                 # pass the payload data to service layer for provessing 
                 boolean, msg = AuthentationServ().sign_in(payload['email'], payload['password'])
                 if boolean:
-                    return successRes(msg='Successfully logged in', key='x-access-token', value=msg), 200
+                    resp = make_response(successRes(msg='Successfully logged in'))
+                    # set json as cookies
+                    resp.set_cookie(key='x-access-token', value=msg, httponly= True)
+                    return resp, 200
                 # return failure message on unsuccessful execution
                 # response consist of jsonified object and status code
                 return failureRes(msg=msg), 400                
