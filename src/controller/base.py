@@ -4,8 +4,6 @@ from services.__init__ import *
 def isValidationError(dataInstance, schema):
     """
         Checks for Errors in json schema of `dataInstance`.\n
-        outputs:\n
-            \t`True` if error and `False` if no error.
     """
 
     GereralSchemas = Draft7Validator(schema)
@@ -13,8 +11,8 @@ def isValidationError(dataInstance, schema):
     for error in sorted(GereralSchemas.iter_errors(dataInstance), key=str):
         validationErrors.append(error.message)
     if not validationErrors:
-        return False
-    return validationErrors
+        return True
+    return False
 
 def successRes(msg=None, key=None, value=None):
     """
@@ -50,6 +48,11 @@ def getData(request):
     """
     try:
         return json.loads(request.data)
-    except Exception as e:
-        print(e)
+    except Exception as error:
+        print(error)
         return None
+
+def custom(set_cookies):
+    response = make_response()
+    for key in set_cookies.keys():
+        response.set_cookie( key,set_cookies[key], httponly=True)

@@ -14,7 +14,7 @@ class SignUpCtrl(MethodView):
                 # pass the payload data to service layer for provessing 
                 boolean, msg = AuthentationServ().sign_up(payload['email'], payload['password'])
                 if boolean:
-                    return successRes(msg='Successfully logged in'), 200
+                    return successRes(msg='Successfully signup'), 200
                 # return failure message on unsuccessful execution
                 # response consist of jsonified object and status code
                 return failureRes(msg=msg), 400

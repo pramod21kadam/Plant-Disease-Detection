@@ -1,6 +1,7 @@
 from model.master import db, Login
 from .base import *
 class LoginDao:
+    @staticmethod
     def sign_in(email, password):
         """
             Checks for email and password authenticity.\n
@@ -8,18 +9,16 @@ class LoginDao:
         """
         try:
             # Query data from database
-            # SELECT COUNT(*) FROM login WHERE login.email = email AND login.password = password
-            result = db.session.query(func.count(Login.id)).\
+            # SELECT * FROM login WHERE login.email = email AND login.password = password
+            result = db.session.query(Login).\
                 filter(Login.email == email).\
                 filter(Login.password == password).\
-                one()
-            if result[0] == 1:
-                return True
-            else:
-                return False
+                all()
+            return result
         except Exception as error:
-            return False
+            return error
 
+    @staticmethod
     def sign_up(email, password):
         """
             Inserts email and password into database.\n
