@@ -131,3 +131,5 @@ dmypy.json
 # Added Ignore files here
 test.py
 database.db
+test/
+temp/
