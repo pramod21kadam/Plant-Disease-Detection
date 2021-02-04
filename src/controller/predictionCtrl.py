@@ -9,7 +9,6 @@ class PredictionCtrl(MethodView):
             file = request.files['predict_img']
             if file:
                 boolean , result =  PredictServ().predict(imageFile = file)
-                print(result)
                 if boolean:
                     return successRes(msg='Prediction complete', key='result', value= str(result)), 200
                 return failureRes(msg = f"{result}"), 500
