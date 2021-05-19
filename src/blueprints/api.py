@@ -1,7 +1,11 @@
 from flask import Blueprint
+from flask_cors import CORS
 from controller.__init__ import *
 from application import App
+
 api = Blueprint('api', __name__,template_folder='templates')
+# enabling cors on api.
+CORS(api)
 
 def register_api(view, endpoint, url, pk='id', pk_type='int', methods = ['GET','PATCH', 'PUT', 'DELETE', 'POST']):
     view_func = view.as_view(endpoint)
