@@ -1,20 +1,24 @@
 from .base import *
 from schemas.loginSchema import *
 
+
 class SignUpCtrl(MethodView):
-    '''
-        Sign up controller user
-    '''
+    """
+    Sign up controller user
+    """
+
     def post(self):
         try:
             # get payload from request
-            payload = getData(request)
+            payload = request.form
             # Validate it with Schema
             if isValidationError(payload, loginSchema.post):
-                # pass the payload data to service layer for provessing 
-                boolean, msg = AuthentationServ().sign_up(payload['email'], payload['password'])
+                # pass the payload data to service layer for provessing
+                boolean, msg = AuthentationServ().sign_up(
+                    payload["email"], payload["password"]
+                )
                 if boolean:
-                    return successRes(msg='Successfully signup'), 200
+                    return successRes(msg="Successfully signup"), 200
                 # return failure message on unsuccessful execution
                 # response consist of jsonified object and status code
                 return failureRes(msg=msg), 400

@@ -12,5 +12,5 @@ class Metaclass(type):
 
 class Model(metaclass=Metaclass):
     def __new__(cls):
-        self.instance = load_model("assets/mobile_net_9756999611854553.h5")
+        cls.instance = load_model("assets/mobile_net_9756999611854553.h5")
         return cls.instance

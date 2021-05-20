@@ -1,25 +1,28 @@
 import re
 from .base import *
 
+from database.database import Database
+
 
 class AuthentationServ:
     def sign_in(self, email, password):
         # pass data to data access object to check for valid user
-        obj = LoginDao.sign_in(email=email, password=password)
-        if len(obj) == 1:
-            data = {"email": email, "id": obj[0].id}
-            # Generate and return jwt token
-            return True, generate_token(data=data)
-        return False, "Failed Sign in"
+        mongo = Database.getinstance().mongo
+        result = mongo.db.Users.find_one({"email": email, "password": password})
+        if result != None:
+            return True, generate_token(data={"email": email})
+        else:
+            return False, "Incorrect email id or password"
 
     def sign_up(self, email, password):
         try:
-            # check if user is already persent
-            boolean, msg = self.sign_in(email=email, password=password)
-            # if yes return 'user already present in database'
-            if boolean:
+            mongo = Database.getinstance().mongo
+            if mongo.db.Users.find_one({"email": email}) == None:
+                result = mongo.db.Users.insert_one(
+                    {"email": email, "password": password}
+                )
+                return result != None, None
+            else:
                 return False, "user already present in database"
-            # if not send the data to data access layer to insert it into database
-            return LoginDao.sign_up(email=email, password=password)
-        except Exception as error:
-            return False, error
+        except Exception as err:
+            return False, err
