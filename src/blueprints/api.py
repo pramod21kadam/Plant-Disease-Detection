@@ -2,7 +2,6 @@ from flask import Blueprint
 from flask_cors import CORS
 from controller.__init__ import *
 from application import App
-from flask_pymongo import PyMongo
 from database.database import Database
 
 api = Blueprint("api", __name__, template_folder="templates")
@@ -27,6 +26,7 @@ def register_api(
 register_api(PredictionCtrl, "prediction", "/predict", methods=["POST"])
 register_api(SignUpCtrl, "signup", "/signup", methods=["POST"])
 register_api(SigninCtrl, "signin", "/signin", methods=["POST"])
+register_api(TokenValidationCtrl, "validate-token", "/validate-token", methods=["POST"])
 
 Database(App())
 # connecting to mongodb servers.

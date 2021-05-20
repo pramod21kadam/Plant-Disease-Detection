@@ -1,7 +1,10 @@
 from packages.packages import os
+
+
 def config(filename):
+
     """
-        Reads the config file and returns a dictionary object
+    Reads the config file and returns a dictionary object
     """
     filename = os.path.join(filename)
     d = {}
