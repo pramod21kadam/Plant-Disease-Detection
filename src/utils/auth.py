@@ -2,11 +2,10 @@ from packages.packages import wraps, jwt, request, jsonify, timedelta, datetime
 from utils.config import config
 from dao.loginDao import LoginDao
 
-
 def token_required(f):
     """
-    Decorator function that checks the json web token for authentation and\n
-    return the current user login contex to the route
+    Decorator function that checks the json web token for authentation and
+    return the current user login context to the route
     """
 
     @wraps(f)
@@ -21,9 +20,7 @@ def token_required(f):
 
         try:
             # decoding the payload to fetch the stored details
-            data = jwt.decode(token, config("config.cfg")["SECRET_KEY"])
-            current_user = LoginDao.get(email=data["email"])
-            if data["id"] != current_user.id:
+            if not isValidToken(token):
                 return jsonify({"message": "Token is invalid !!"}), 401
         except Exception as error:
             print(error)
@@ -79,3 +76,13 @@ def decode_token(token):
     except Exception as e:
         print(e)
         return False
+
+def isValidToken(token) -> bool:
+    """
+    Function for Token validation
+    """
+    data = jwt.decode(token, config("config.cfg")["SECRET_KEY"])
+    current_user = LoginDao.get(email=data["email"])
+    if data["id"] != current_user.id:
+        return False
+    return True
