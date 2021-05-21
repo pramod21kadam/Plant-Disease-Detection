@@ -58,11 +58,13 @@ def check_for_token(request):
     return False, None
 
 
-def generate_token(data, expire_time=datetime.utcnow() + timedelta(minutes=30)):
+def generate_token(data, expire_time=None):
     """
     Generate jwt tokens
     """
     # expire time is the time for jwt death
+    if not expire_time:
+        expire_time = datetime.utcnow() + timedelta(minutes=30)
     data["exp"] = expire_time
     return jwt.encode(data, config("config.cfg")["SECRET_KEY"])
 
@@ -75,4 +77,5 @@ def decode_token(token):
     try:
         return jwt.decode(token, config("config.cfg")["SECRET_KEY"])
     except Exception as e:
+        print(e)
         return False
