@@ -11,6 +11,10 @@ class Metaclass(type):
 
 
 class Model(metaclass=Metaclass):
+    """
+    Singleton class for loading tensroflow model.
+    """
+
     def __new__(cls):
         cls.instance = load_model("assets/mobile_net_9756999611854553.h5")
         return cls.instance

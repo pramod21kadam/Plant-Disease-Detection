@@ -1,13 +1,17 @@
-from typing import List
 from .base import *
 
+
 class PredictServ:
-    """ 
-        Service for perdiction perpose.
     """
+    Perdiction Service used tensorflow model to classify images provided.
+    """
+
     def predict(self, imageFile):
+        """
+        Classifies image and returns class name as result.
+        """
         try:
-            target = 'temp/'
+            target = "temp/"
             # Save image to temperary folder
             filename = imageFile.filename
             path = "".join([target, filename])
@@ -18,11 +22,13 @@ class PredictServ:
 
             # predict image
             result = list(Model().predict(test_image, batch_size=1)[0])
-            
+
             # Remove the saved file
-            os.remove(os.getcwd()+ '/' + path)
-            
-            largest = result.index(max(result))
+            os.remove(os.getcwd() + "/" + path)
+
+            largest = result.index(
+                max(result)
+            )  # index of output with maximum activation.
             return True, classes[largest]
         except Exception as error:
             return False, error

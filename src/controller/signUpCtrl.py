@@ -4,7 +4,8 @@ from schemas.loginSchema import *
 
 class SignUpCtrl(MethodView):
     """
-    Sign up controller user
+    Signup contorller responds to post request only.
+    Creates new user account.
     """
 
     def post(self):

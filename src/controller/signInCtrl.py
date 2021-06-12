@@ -5,14 +5,15 @@ from flask import make_response
 
 class SigninCtrl(MethodView):
     """
-    Sign in controller user
+    Sign in controller user processes post request only.
+    If valid email id and password are provided generates new jwt tokes as response.
     """
 
     def post(self):
         try:
             # get payload from request
-            # payload = getData(request)
             payload = request.form
+
             # Validate it with Schema
             if isValidationError(payload, loginSchema.post):
                 # pass the payload data to service layer for provessing

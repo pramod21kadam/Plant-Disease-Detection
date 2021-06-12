@@ -4,7 +4,7 @@ from database.database import Database
 
 class TokenValidationCtrl(MethodView):
     """
-    contorller validates the token.
+    TokenValidation contorller validates jwt tokens.
     """
 
     def post(self):

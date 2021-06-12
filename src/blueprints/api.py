@@ -17,6 +17,9 @@ def register_api(
     pk_type="int",
     methods=["GET", "PATCH", "PUT", "DELETE", "POST"],
 ):
+    """
+    Function to register API endpoints.
+    """
     view_func = view.as_view(endpoint)
     # api.add_url_rule(url, defaults={pk: None}, view_func=view_func, methods=['GET', 'PATCH', 'PUT', 'DELETE'])
     api.add_url_rule(url, view_func=view_func, methods=["POST", "OPTIONS"])
@@ -28,7 +31,7 @@ register_api(SignUpCtrl, "signup", "/signup", methods=["POST"])
 register_api(SigninCtrl, "signin", "/signin", methods=["POST"])
 register_api(TokenValidationCtrl, "validate-token", "/validate-token", methods=["POST"])
 
+#
 Database(App())
-# connecting to mongodb servers.
 
 App().register_blueprint(api, url_prefix="/api")

@@ -15,6 +15,10 @@ class Metaclass(type):
 
 
 class App(metaclass=Metaclass):
+    """
+    Singleton class to hold flask application instance.
+    """
+
     def __new__(cls):
         cls.instance = Flask(__name__)
         cls.instance.config.from_pyfile("config.cfg")
