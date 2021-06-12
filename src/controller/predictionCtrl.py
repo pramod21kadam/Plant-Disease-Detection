@@ -1,5 +1,8 @@
+from numpy import delete
 from .base import *
 import requests
+
+from database.database import Database
 
 api_url = "http://127.0.0.1:5000/api/validate-token"
 
@@ -25,9 +28,16 @@ class PredictionCtrl(MethodView):
             if file:
                 boolean, result = PredictServ().predict(imageFile=file)
                 if boolean:
+                    mongo = Database.getinstance().mongo
+                    result = mongo.db.DiseaseInfo.find_one({"id": str(result)})
+
+                    if not result:
+                        return failureRes(msg="Failed to fetch result"), 500
+
+                    result.pop("_id")
                     return (
                         successRes(
-                            msg="Prediction complete", key="result", value=str(result)
+                            msg="Prediction complete", key="result", value=result
                         ),
                         200,
                     )
